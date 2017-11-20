@@ -2,7 +2,7 @@
 
     'use strict';
 
-    //Generic   
+    //Generic
 
     function makeArray(arr) {
         if(!arr){
@@ -29,13 +29,13 @@
         return angular.injector(modules);
     }
 
-    function bootstrapApplication(angularApp) {
-        angular.element(document).ready(function () {
-            angular.bootstrap(document, [angularApp]);
+    function bootstrapApplication(element, modules, config) {
+        angular.element(element).ready(function () {
+            angular.bootstrap(element, modules, config);
         });
     }
 
-    angular.lazy = function (app, modules) {
+    angular.lazy = function (modules) {
 
         var injector = createInjector(modules),
             $q = injector.get('$q'),
@@ -52,13 +52,12 @@
                 return this;
             },
 
-            bootstrap: function () {
-
+            bootstrap: function (element, modules, config) {
                 loadingCallback();
 
                 return $q.all(promises)
                     .then(function () {
-                        bootstrapApplication(app);
+                        bootstrapApplication(element, modules, config);
                     }, errorCallback)
                     .finally(doneCallback);
             },

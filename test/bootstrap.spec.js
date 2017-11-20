@@ -14,7 +14,7 @@ describe('lazyBootstrap', function () {
             expect(link.bootstrap).toEqual(jasmine.any(Function));
         }
 
-        var link = angular.lazy('demoApp');
+        var link = angular.lazy();
         check(link);
 
         link = link.resolve(['$timeout', '$q', function($timeout, $q){
@@ -41,7 +41,7 @@ describe('lazyBootstrap', function () {
 
         window.appConfig = {};
 
-        angular.lazy('demoApp')
+        angular.lazy()
             .resolve(['$q', '$timeout', function ($q, $timeout) {
                 var deferred = $q.defer();
                 $timeout(function () {
@@ -50,7 +50,7 @@ describe('lazyBootstrap', function () {
                 }, 2000);
                 return deferred.promise;
             }])
-            .bootstrap();
+            .bootstrap(document, 'demoApp');
 
         angular.module('demoApp', [])
             .config(function () {
@@ -79,7 +79,7 @@ describe('lazyBootstrap', function () {
             .done(function() {
                 expect(window.app.const).toEqual('My Constant');
             })
-            .bootstrap();
+            .bootstrap(document, 'demoApp');
 
         angular.module('demoApp', [])
             .config(function () {
